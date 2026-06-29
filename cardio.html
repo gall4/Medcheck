@@ -113,6 +113,9 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 0.5rem; }
   color: #1a1a1a;
   transition: background 0.15s, border-color 0.15s;
   position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 .scenario-btn:hover { background: #f0f0ee; border-color: #bbb; }
 .scenario-btn.inactive {
@@ -298,7 +301,7 @@ h1 { font-size: 22px; font-weight: 500; margin-bottom: 0.5rem; }
 <div style="position:fixed;bottom:18px;right:18px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
   <button class="donate-fab" onclick="openFeedback()" style="background:#f0f7ff;border-color:#378ADD;">
     <span style="color:#378ADD;">Обратная связь</span>
-  </div>
+</div>
 <div class="donate-modal-overlay" id="donate-overlay">
   <div class="donate-modal" style="max-width:360px;">
     <h3 style="margin-bottom:0.75rem;">Поддержать проект</h3>
@@ -487,7 +490,14 @@ function submitForm() {
 }
 
 function renderScenarioLabel(s) {
-  return s.name + ' <span style="background:#378ADD;color:#fff;font-size:12px;font-weight:600;padding:2px 8px;border-radius:20px;float:right;margin-left:8px;">' + s.bp + '</span>';
+  const isHighlighted = s.bp === '110/80' || s.bp === '120/80';
+  const badgeStyle = isHighlighted
+    ? 'background:#fff3cd;color:#856404;border:1px solid #ffc107;font-size:12px;font-weight:700;padding:2px 9px;border-radius:20px;margin-left:8px;white-space:nowrap;'
+    : 'background:#f0f7ff;color:#185FA5;border:1px solid #b8d6f5;font-size:12px;font-weight:600;padding:2px 9px;border-radius:20px;margin-left:8px;white-space:nowrap;';
+  return '<span style="display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;">'
+    + '<span>' + s.name + '</span>'
+    + '<span style="' + badgeStyle + '">' + s.bp + '</span>'
+    + '</span>';
 }
 </script>
 <script>// ===== Общая логика: выбор сценариев + сохранение в localStorage =====
@@ -607,9 +617,6 @@ function renderScenarioList() {
   updateRandomButton();
 }
 
-function renderScenarioLabel(s) {
-  return s.name;
-}
 
 function updateRandomButton() {
   const selected = getSelectedScenarios();
